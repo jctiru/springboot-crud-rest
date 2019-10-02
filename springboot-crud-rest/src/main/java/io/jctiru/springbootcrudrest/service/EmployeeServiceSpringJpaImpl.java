@@ -42,5 +42,9 @@ public class EmployeeServiceSpringJpaImpl implements EmployeeService {
 	public void deleteById(int id) {
 		employeeDao.deleteById(id);
 	}
+	
+	public List<Employee> findByLastName(String lastName) {
+		return employeeDao.findByLastName(lastName);
+	}
 
 }

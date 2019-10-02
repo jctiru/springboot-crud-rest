@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
@@ -36,6 +37,14 @@ public class SpringbootCrudRestApplicationTests {
 		Pageable pageable = PageRequest.of(9, 1);
 		Page<Employee> results = employeeRepository.findAll(pageable);
 		results.forEach(e -> System.out.println(e));
+	}
+
+	@Test
+	public void testFindAllSorting() {
+		// List<Employee> employeeList = employeeRepository.findAll(Sort.by("lastName").descending());
+		List<Employee> employeeList = employeeRepository.findAllByOrderByLastNameDesc();
+		employeeList.forEach(e -> System.out.println(e.getLastName()));
+		// employeeList.forEach(System.out::println);
 	}
 
 }

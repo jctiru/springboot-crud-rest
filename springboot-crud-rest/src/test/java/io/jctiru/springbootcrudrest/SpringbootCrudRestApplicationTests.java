@@ -41,10 +41,17 @@ public class SpringbootCrudRestApplicationTests {
 
 	@Test
 	public void testFindAllSorting() {
-		// List<Employee> employeeList = employeeRepository.findAll(Sort.by("lastName").descending());
+		// List<Employee> employeeList =
+		// employeeRepository.findAll(Sort.by("lastName").descending());
 		List<Employee> employeeList = employeeRepository.findAllByOrderByLastNameDesc();
 		employeeList.forEach(e -> System.out.println(e.getLastName()));
 		// employeeList.forEach(System.out::println);
+	}
+
+	@Test
+	public void testFindAllEmployees() {
+		List<Employee> employeeList = employeeRepository.findAllEmployees();
+		employeeList.forEach(e -> System.out.println(e.getLastName() + " " + e.getFirstName()));
 	}
 
 }

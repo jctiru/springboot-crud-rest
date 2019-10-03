@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
@@ -52,6 +51,14 @@ public class SpringbootCrudRestApplicationTests {
 	public void testFindAllEmployees() {
 		List<Employee> employeeList = employeeRepository.findAllEmployees();
 		employeeList.forEach(e -> System.out.println(e.getLastName() + " " + e.getFirstName()));
+	}
+
+	@Test
+	public void testFindAllEmployeesPartialData() {
+		List<Object[]> employeeList = employeeRepository.findAllEmployeesPartialData();
+		for (Object[] objects : employeeList) {
+			System.out.println(objects[1] + " " + objects[0]);
+		}
 	}
 
 }

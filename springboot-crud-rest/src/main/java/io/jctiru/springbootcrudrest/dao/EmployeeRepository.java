@@ -27,4 +27,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query("from Employee order by lastName")
 	List<Employee> findAllEmployees();
 
+	@Query("select em.firstName, em.lastName from Employee em order by lastName")
+	List<Object[]> findAllEmployeesPartialData();
+
 }

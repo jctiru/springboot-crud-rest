@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import io.jctiru.springbootcrudrest.entity.Employee;
 
@@ -29,5 +30,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Query("select em.firstName, em.lastName from Employee em order by lastName")
 	List<Object[]> findAllEmployeesPartialData();
+
+	@Query("from Employee where firstName = :firstName")
+	List<Employee> findAllEmployeesByFirstName(@Param("firstName") String firstName);
 
 }

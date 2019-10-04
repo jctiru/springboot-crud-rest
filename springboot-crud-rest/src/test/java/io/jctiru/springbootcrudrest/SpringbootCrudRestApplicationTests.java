@@ -61,4 +61,9 @@ public class SpringbootCrudRestApplicationTests {
 		}
 	}
 
+	@Test
+	public void testFindAllEmployeesByFirstName() {
+		System.out.println(employeeRepository.findAllEmployeesByFirstName("Yuri"));
+	}
+
 }

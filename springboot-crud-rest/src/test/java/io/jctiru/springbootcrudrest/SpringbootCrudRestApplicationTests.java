@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
 import io.jctiru.springbootcrudrest.entity.Employee;
@@ -64,6 +66,13 @@ public class SpringbootCrudRestApplicationTests {
 	@Test
 	public void testFindAllEmployeesByFirstName() {
 		System.out.println(employeeRepository.findAllEmployeesByFirstName("Yuri"));
+	}
+
+	@Test
+	@Transactional // JUnit automatically rolls back transaction
+	@Rollback(true) // Set to false to disable rollback, default true
+	public void testDeleteEmployeeByLastName() {
+		employeeRepository.deleteEmployeeByLastName("Salvador");
 	}
 
 }

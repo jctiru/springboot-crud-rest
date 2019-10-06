@@ -3,6 +3,7 @@ package io.jctiru.springbootcrudrest.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -33,5 +34,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Query("from Employee where firstName = :firstName")
 	List<Employee> findAllEmployeesByFirstName(@Param("firstName") String firstName);
+
+	// Required for DML operations
+	@Modifying
+	@Query("delete from Employee where lastName = :lastName")
+	void deleteEmployeeByLastName(@Param("lastName") String lastName);
 
 }

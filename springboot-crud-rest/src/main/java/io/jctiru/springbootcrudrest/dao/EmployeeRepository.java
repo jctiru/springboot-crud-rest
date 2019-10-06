@@ -2,6 +2,7 @@ package io.jctiru.springbootcrudrest.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +29,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Query("from Employee order by lastName")
 	List<Employee> findAllEmployees();
+
+	@Query("from Employee")
+	List<Employee> findAllEmployees(Pageable pageable);
 
 	@Query("select em.firstName, em.lastName from Employee em order by lastName")
 	List<Object[]> findAllEmployeesPartialData();

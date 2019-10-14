@@ -2,16 +2,28 @@ package io.jctiru.springbootcrudrest.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Appointment {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 
+	@Column(name = "appointment_time")
 	private Timestamp appointmentTime;
 
+	@Column(name = "started")
 	private boolean started;
 
+	@Column(name = "ended")
 	private boolean ended;
 
+	@Column(name = "reason")
 	private String reason;
 
 	public long getId() {

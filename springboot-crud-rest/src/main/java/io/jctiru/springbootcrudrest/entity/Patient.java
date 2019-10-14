@@ -1,6 +1,8 @@
 package io.jctiru.springbootcrudrest.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -15,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -44,6 +47,10 @@ public class Patient {
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
 	@JoinTable(name = "patients_doctors", joinColumns = @JoinColumn(name = "patient_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
 	private Set<Doctor> doctors = new HashSet<>();
+
+	@OneToMany(mappedBy = "patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	private List<Appointment> appointments = new ArrayList<>();
 
 	public long getId() {
 		return id;
@@ -91,6 +98,14 @@ public class Patient {
 
 	public void setDoctors(Set<Doctor> doctors) {
 		this.doctors = doctors;
+	}
+
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 	public void addDoctor(Doctor doctor) {

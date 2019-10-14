@@ -2,10 +2,13 @@ package io.jctiru.springbootcrudrest.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 public class Appointment {
 
@@ -25,6 +28,14 @@ public class Appointment {
 
 	@Column(name = "reason")
 	private String reason;
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinColumn(name = "patient_id")
+	private Patient patient;
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinColumn(name = "doctor_id")
+	private Doctor doctor;
 
 	public long getId() {
 		return id;
@@ -64,6 +75,34 @@ public class Appointment {
 
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public void setPatientAndDoctor(Patient patient, Doctor doctor) {
+		this.patient = patient;
+		patient.getAppointments().add(this);
+		this.doctor = doctor;
+		doctor.getAppointments().add(this);
+	}
+
+	public void removePatientAndDoctor() {
+		this.patient.getAppointments().remove(this);
+		this.doctor.getAppointments().remove(this);
 	}
 
 	@Override

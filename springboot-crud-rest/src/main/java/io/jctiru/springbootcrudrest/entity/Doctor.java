@@ -1,10 +1,17 @@
 package io.jctiru.springbootcrudrest.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,11 +32,15 @@ public class Doctor {
 	@Column(name = "speciality")
 	private String speciality;
 
-	public Long getId() {
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinTable(name = "patients_doctors", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+	private Set<Patient> patients = new HashSet<>();
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -55,6 +66,24 @@ public class Doctor {
 
 	public void setSpeciality(String speciality) {
 		this.speciality = speciality;
+	}
+
+	public Set<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(Set<Patient> patients) {
+		this.patients = patients;
+	}
+
+	public void addPatient(Patient patient) {
+		patients.add(patient);
+		patient.getDoctors().add(this);
+	}
+
+	public void removePatient(Patient patient) {
+		patients.remove(patient);
+		patient.getDoctors().remove(this);
 	}
 
 	@Override

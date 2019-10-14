@@ -1,13 +1,20 @@
 package io.jctiru.springbootcrudrest.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +40,10 @@ public class Patient {
 			@AttributeOverride(name = "providerName", column = @Column(name = "provider_name"))
 	})
 	private Insurance insurance;
+
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinTable(name = "patients_doctors", joinColumns = @JoinColumn(name = "patient_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
+	private Set<Doctor> doctors = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -72,6 +83,24 @@ public class Patient {
 
 	public void setInsurance(Insurance insurance) {
 		this.insurance = insurance;
+	}
+
+	public Set<Doctor> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(Set<Doctor> doctors) {
+		this.doctors = doctors;
+	}
+
+	public void addDoctor(Doctor doctor) {
+		doctors.add(doctor);
+		doctor.getPatients().add(this);
+	}
+
+	public void removeDoctor(Doctor doctor) {
+		doctors.remove(doctor);
+		doctor.getPatients().remove(this);
 	}
 
 	@Override

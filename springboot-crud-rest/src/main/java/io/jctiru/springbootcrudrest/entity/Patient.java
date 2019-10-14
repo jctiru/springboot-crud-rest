@@ -1,6 +1,9 @@
 package io.jctiru.springbootcrudrest.entity;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +28,10 @@ public class Patient {
 	@Column(name = "phone")
 	private String phone;
 
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "providerName", column = @Column(name = "provider_name"))
+	})
 	private Insurance insurance;
 
 	public long getId() {

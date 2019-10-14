@@ -1,5 +1,8 @@
 package io.jctiru.springbootcrudrest.entity;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Insurance {
 
 	private String providerName;

@@ -14,7 +14,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.jctiru.springbootcrudrest.dao.AppointmentRepository;
+import io.jctiru.springbootcrudrest.dao.DoctorRepository;
 import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
+import io.jctiru.springbootcrudrest.dao.PatientRepository;
+import io.jctiru.springbootcrudrest.entity.Doctor;
 import io.jctiru.springbootcrudrest.entity.Employee;
 
 @RunWith(SpringRunner.class)
@@ -23,6 +27,15 @@ public class SpringbootCrudRestApplicationTests {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private DoctorRepository doctorRepository;
+
+	@Autowired
+	private PatientRepository patientRepository;
+
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 
 	@Test
 	public void contextLoads() {
@@ -83,6 +96,15 @@ public class SpringbootCrudRestApplicationTests {
 		List<Employee> employeeList = employeeRepository
 				.findAllEmployees(PageRequest.of(1, 2, Direction.DESC, "lastName"));
 		employeeList.forEach(System.out::println);
+	}
+
+	@Test
+	public void testCreateDoctor() {
+		Doctor doctor = new Doctor();
+		doctor.setFirstName("Black");
+		doctor.setLastName("Jack");
+		doctor.setSpeciality("All");
+		doctorRepository.save(doctor);
 	}
 
 }

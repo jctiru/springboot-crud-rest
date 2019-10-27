@@ -1,6 +1,9 @@
 package io.jctiru.springbootcrudrest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +23,8 @@ import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
 import io.jctiru.springbootcrudrest.dao.PatientRepository;
 import io.jctiru.springbootcrudrest.entity.Doctor;
 import io.jctiru.springbootcrudrest.entity.Employee;
+import io.jctiru.springbootcrudrest.entity.Insurance;
+import io.jctiru.springbootcrudrest.entity.Patient;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -105,6 +110,29 @@ public class SpringbootCrudRestApplicationTests {
 		doctor.setLastName("Jack");
 		doctor.setSpeciality("All");
 		doctorRepository.save(doctor);
+	}
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testCreatePatient() {
+		Patient patient = new Patient();
+		patient.setFirstName("John");
+		patient.setLastName("Wick");
+		patient.setPhone("777");
+
+		Insurance insurance = new Insurance();
+		insurance.setProviderName("The Continental");
+		insurance.setCopay(77D);
+		patient.setInsurance(insurance);
+
+		Optional<Doctor> doctor = doctorRepository.findById(1L);
+		Set<Doctor> doctors = new HashSet<>();
+		doctors.add(doctor.get());
+		patient.setDoctors(doctors);
+
+		System.out.println(patient);
+		patientRepository.save(patient);
 	}
 
 }

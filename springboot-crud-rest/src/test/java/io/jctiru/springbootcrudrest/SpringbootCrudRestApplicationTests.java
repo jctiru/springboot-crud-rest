@@ -1,5 +1,7 @@
 package io.jctiru.springbootcrudrest;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import io.jctiru.springbootcrudrest.dao.AppointmentRepository;
 import io.jctiru.springbootcrudrest.dao.DoctorRepository;
 import io.jctiru.springbootcrudrest.dao.EmployeeRepository;
 import io.jctiru.springbootcrudrest.dao.PatientRepository;
+import io.jctiru.springbootcrudrest.entity.Appointment;
 import io.jctiru.springbootcrudrest.entity.Doctor;
 import io.jctiru.springbootcrudrest.entity.Employee;
 import io.jctiru.springbootcrudrest.entity.Insurance;
@@ -133,6 +136,21 @@ public class SpringbootCrudRestApplicationTests {
 
 		System.out.println(patient);
 		patientRepository.save(patient);
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testCreateAppointment() {
+		Appointment appointment = new Appointment();
+		Timestamp appointmentTime = new Timestamp(new Date().getTime());
+		appointment.setAppointmentTime(appointmentTime);
+		appointment.setReason("Bullet wound");
+		appointment.setStarted(true);
+		appointment.setPatient(patientRepository.findById(1L).get());
+		appointment.setDoctor(doctorRepository.findById(1L).get());
+
+		appointmentRepository.save(appointment);
 	}
 
 }
